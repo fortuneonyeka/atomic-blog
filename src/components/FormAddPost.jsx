@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { usePostContext } from '../context/PostContext';
+import React, { useState } from "react";
+import { usePostContext } from "../context/PostContext";
 
 const FormAddPost = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const {onAddPost} = usePostContext()
+  const { onAddPost } = usePostContext();
 
   const handleSubmit = function (e) {
     e.preventDefault();
@@ -30,11 +30,6 @@ const FormAddPost = () => {
       <button>Add post</button>
     </form>
   );
-}
+};
 
-export default FormAddPost
-
-
-
-
-
+export default FormAddPost;

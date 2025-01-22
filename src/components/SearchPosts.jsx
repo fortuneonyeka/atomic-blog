@@ -1,7 +1,7 @@
-import { usePostContext } from '../context/PostContext';
+import { usePostContext } from "../context/PostContext";
 
 const SearchPosts = () => {
-  const {searchQuery, setSearchQuery} = usePostContext()
+  const { searchQuery, setSearchQuery } = usePostContext();
   return (
     <input
       value={searchQuery}
@@ -9,9 +9,6 @@ const SearchPosts = () => {
       placeholder="Search posts..."
     />
   );
-}
+};
 
-export default SearchPosts
-
-
-
+export default SearchPosts;

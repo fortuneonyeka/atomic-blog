@@ -1,9 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 
-
-export const PostContext = createContext()
-
+export const PostContext = createContext();
 
 export function createRandomPost() {
   return {
@@ -30,14 +28,13 @@ export function PostProvider({ children }) {
         )
       : posts;
 
+  function handleAddPost(post) {
+    setPosts((posts) => [post, ...posts]);
+  }
 
-      function handleAddPost(post) {
-        setPosts((posts) => [post, ...posts]);
-      }
-    
-      function handleClearPosts() {
-        setPosts([]);
-      }
+  function handleClearPosts() {
+    setPosts([]);
+  }
 
   // Toggle dark mode
   useEffect(() => {
@@ -46,19 +43,18 @@ export function PostProvider({ children }) {
 
   const value = {
     posts: searchedPosts,
-    onAddPost:handleAddPost,
-    onClearPosts:handleClearPosts,
+    onAddPost: handleAddPost,
+    onClearPosts: handleClearPosts,
     setPosts,
     searchQuery,
     setSearchQuery,
     isFakeDark,
     setIsFakeDark,
-    
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
 }
 
 export const usePostContext = () => {
-  return useContext(PostContext)
-}
+  return useContext(PostContext);
+};
