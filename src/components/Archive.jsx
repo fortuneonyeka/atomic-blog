@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { createRandomPost, PostContext } from '../context/PostContext';
+import React, { useState } from 'react'
+import { createRandomPost, usePostContext } from '../context/PostContext';
 
 const Archive = () => {
   const [posts] = useState(() =>
@@ -9,7 +9,7 @@ const Archive = () => {
 
   const [showArchive, setShowArchive] = useState(false);
 
-  const {onAddPost} = useContext(PostContext)
+  const {onAddPost} = usePostContext()
 
   return (
     <aside>
