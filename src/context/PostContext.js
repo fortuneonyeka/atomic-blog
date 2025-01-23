@@ -56,5 +56,9 @@ export function PostProvider({ children }) {
 }
 
 export const usePostContext = () => {
-  return useContext(PostContext);
+  const context = useContext(PostContext);
+  if (context === undefined) {
+    throw new Error("usePostContext must be within the contex provider")
+  }
+  return context
 };
