@@ -33,9 +33,11 @@ export function PostProvider({ children }) {
     setPosts((posts) => [post, ...posts]);
   }, []);
 
-  const handleClearPosts = useCallback(() => {
+  
+
+  const handleClearPosts = () => {
     setPosts([]);
-  }, []);
+  };
 
   useEffect(() => {
     document.documentElement.classList.toggle("fake-dark-mode", isFakeDark);
@@ -44,6 +46,7 @@ export function PostProvider({ children }) {
   // Memoize context value to prevent unnecessary re-renders of consuming components
   const value = useMemo(() => ({
     posts: searchedPosts,
+    searchedPosts,
     onAddPost: handleAddPost,
     onClearPosts: handleClearPosts,
     setPosts,
@@ -52,9 +55,11 @@ export function PostProvider({ children }) {
     isFakeDark,
     setIsFakeDark,
   }), [
-    searchedPosts,
+  
+   searchedPosts,
+   
     handleAddPost,
-    handleClearPosts,
+    
     searchQuery,
     isFakeDark
   ]);
