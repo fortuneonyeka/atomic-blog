@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { faker } from "@faker-js/faker";
 
 export const PostContext = createContext();
@@ -10,7 +10,6 @@ export function createRandomPost() {
   };
 }
 
-// Context provider
 export function PostProvider({ children }) {
   const [posts, setPosts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPost())
@@ -18,30 +17,32 @@ export function PostProvider({ children }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFakeDark, setIsFakeDark] = useState(false);
 
-  // Derived state: Filtered posts based on search query
-  const searchedPosts =
-    searchQuery.length > 0
-      ? posts.filter((post) =>
-          `${post.title} ${post.body}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        )
-      : posts;
+  // Memoize searched posts to prevent unnecessary filtering
+  const searchedPosts = useMemo(() => {
+    if (searchQuery.length === 0) return posts;
+    
+    return posts.filter((post) =>
+      `${post.title} ${post.body}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+  }, [posts, searchQuery]);
 
-  function handleAddPost(post) {
+  // Memoize handlers to prevent unnecessary re-renders in child components
+  const handleAddPost = useCallback((post) => {
     setPosts((posts) => [post, ...posts]);
-  }
+  }, []);
 
-  function handleClearPosts() {
+  const handleClearPosts = useCallback(() => {
     setPosts([]);
-  }
+  }, []);
 
-  // Toggle dark mode
   useEffect(() => {
     document.documentElement.classList.toggle("fake-dark-mode", isFakeDark);
   }, [isFakeDark]);
 
-  const value = {
+  // Memoize context value to prevent unnecessary re-renders of consuming components
+  const value = useMemo(() => ({
     posts: searchedPosts,
     onAddPost: handleAddPost,
     onClearPosts: handleClearPosts,
@@ -50,7 +51,13 @@ export function PostProvider({ children }) {
     setSearchQuery,
     isFakeDark,
     setIsFakeDark,
-  };
+  }), [
+    searchedPosts,
+    handleAddPost,
+    handleClearPosts,
+    searchQuery,
+    isFakeDark
+  ]);
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
 }
@@ -58,7 +65,7 @@ export function PostProvider({ children }) {
 export const usePostContext = () => {
   const context = useContext(PostContext);
   if (context === undefined) {
-    throw new Error("usePostContext must be within the contex provider")
+    throw new Error("usePostContext must be within the context provider");
   }
-  return context
+  return context;
 };
