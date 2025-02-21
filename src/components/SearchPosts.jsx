@@ -1,6 +1,8 @@
+import { memo } from "react";
 import { usePostContext } from "../context/PostContext";
 
-const SearchPosts = () => {
+
+const SearchPosts = memo(() => {
   const { searchQuery, setSearchQuery } = usePostContext();
   return (
     <input
@@ -9,6 +11,7 @@ const SearchPosts = () => {
       placeholder="Search posts..."
     />
   );
-};
+})
+
 
 export default SearchPosts;

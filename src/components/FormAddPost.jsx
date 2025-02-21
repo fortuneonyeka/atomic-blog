@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { usePostContext } from "../context/PostContext";
 
 const FormAddPost = () => {
@@ -7,13 +7,14 @@ const FormAddPost = () => {
 
   const { onAddPost } = usePostContext();
 
-  const handleSubmit = function (e) {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     if (!body || !title) return;
     onAddPost({ title, body });
     setTitle("");
     setBody("");
-  };
+  },[body,onAddPost, title])
+  
 
   return (
     <form onSubmit={handleSubmit}>

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { usePostContext } from '../context/PostContext';
 
-const DarkModeToggle = () => {
+const DarkModeToggle = memo(() => {
   const { isFakeDark, setIsFakeDark } = usePostContext();
 
   return (
@@ -11,8 +11,8 @@ const DarkModeToggle = () => {
     >
       {isFakeDark ? "☀️" : "🌙"}
     </button>
-  );
-}
+);
+})
 
 export default DarkModeToggle
 

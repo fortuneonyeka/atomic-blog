@@ -16,7 +16,7 @@ function App() {
 }
 
   function AppContent() {
-    const { posts, searchedPosts } = usePostContext();
+    const { posts } = usePostContext();
   
     const archiveOptions = useMemo(() => ({
       show: false,
